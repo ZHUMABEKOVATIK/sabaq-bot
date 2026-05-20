@@ -1,6 +1,11 @@
-from dotenv import load_dotenv
-import os
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-load_dotenv()
+class Settings(BaseSettings):
+    TOKEN: str
+    
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore"
+    )
 
-TOKEN = os.getenv("TOKEN")
+settings = Settings()
