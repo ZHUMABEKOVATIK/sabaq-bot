@@ -14,7 +14,7 @@ router = Router()
 @router.message(CommandStart())
 async def start(message: Message):
     u = message.from_user
-    await message.answer(f"Salem {u.full_name}, {u.id}")
+    await message.answer(f"Salem {u.full_name}")
 
 @router.message(Command("contact"))
 async def contact(message: Message):
@@ -50,18 +50,17 @@ async def remove_keyboard(message: Message):
     await message.answer("Bul knopkani joq qiladi!", reply_markup=rm_mark)
 
 # InlineKeyboard
-@router.message(Command("inline"))
+@router.message(Command("game"))
 async def inline_keyboard(message: Message):
-    await message.bot
     btns = [
         [
-            InlineKeyboardButton(text="Button 1", callback_data="btn1")
+            InlineKeyboardButton(text="tas", callback_data="tas")
         ],
         [
-            InlineKeyboardButton(text="Button 2", callback_data="btn2")
+            InlineKeyboardButton(text="qagaz", callback_data="qagaz")
         ],
         [
-            InlineKeyboardButton(text="Button 3", callback_data="btn3")
+            InlineKeyboardButton(text="qayshi", callback_data="qayshi")
         ]
     ]
     mark = InlineKeyboardMarkup(inline_keyboard=btns)

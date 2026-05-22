@@ -4,6 +4,7 @@ import logging
 from aiogram import Bot, Dispatcher, F
 from .config import settings
 from .handlers import routers
+from .utils.my_commands import my_commands
 
 bot = Bot(settings.TOKEN)
 dp = Dispatcher()
@@ -11,6 +12,7 @@ dp = Dispatcher()
 dp.include_routers(routers)
 
 async def main():
+    await bot.set_my_commands(my_commands())
     logging.basicConfig(level=logging.INFO)
     await dp.start_polling(bot)
 
