@@ -11,10 +11,21 @@ from aiogram.types import (
 
 router = Router()
 
+from src.states.auth import AuthStates
+from aiogram.fsm.context import FSMContext
+
 @router.message(CommandStart())
-async def start(message: Message):
+async def start(message: Message, state: FSMContext):
     u = message.from_user
+    data = {'key': u.full_name}
+    await state.update_data(data)
     await message.answer(f"Salem {u.full_name}")
+    await state.set_state(AuthStates.name)
+
+@router.message(AuthStates.name)
+async def get_message(message: Message, state: FSMContext):
+    data = await state.get_data()
+    await message.answer(f"Bul state xabar {data['key']}")
 
 @router.message(Command("contact"))
 async def contact(message: Message):
