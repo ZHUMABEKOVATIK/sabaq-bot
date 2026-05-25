@@ -8,24 +8,18 @@ from aiogram.types import (
     InlineKeyboardMarkup, 
     InlineKeyboardButton
 )
+from src.states.auth import AuthStates
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.storage.base import StorageKey
 
 router = Router()
 
-from src.states.auth import AuthStates
-from aiogram.fsm.context import FSMContext
-
 @router.message(CommandStart())
 async def start(message: Message, state: FSMContext):
-    u = message.from_user
-    data = {'key': u.full_name}
-    await state.update_data(data)
-    await message.answer(f"Salem {u.full_name}")
-    await state.set_state(AuthStates.name)
+    key = StorageKey(message.bot.id, message.chat.id, message.from_user.id)
 
-@router.message(AuthStates.name)
-async def get_message(message: Message, state: FSMContext):
-    data = await state.get_data()
-    await message.answer(f"Bul state xabar {data['key']}")
+    await message.answer(f"Salem, atin'izdi kiritin")
+    await state.storage.set_state(key=key, state=AuthStates.name)
 
 @router.message(Command("contact"))
 async def contact(message: Message):
